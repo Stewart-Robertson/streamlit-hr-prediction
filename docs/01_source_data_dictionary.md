@@ -86,26 +86,3 @@ A comprehensive data dictionary covering all columns in the employee attrition p
 | `exit_interview_scheduled` | Binary (0/1) | 0 or 1 | Process flag | ⚠️ **LEAKAGE**: strongly tied to outcome; exclude at train time. |
 | `offboarding_ticket_created` | Binary (0/1) | 0 or 1 | IT/HR offboarding flag | ⚠️ **LEAKAGE**: strongly tied to outcome; exclude at train time. |
 
----
-
-## 🔧 Additional Modeling Notes
-
-### Team & Manager Clustering
-- `team_id` carries random team/manager effects → consider grouped CV by `team_id`
-
-### Concept Drift
-- Snapshot years encode macro shifts (e.g., 2022 RTO friction, 2023 correction)
-- Prefer time-based splits for validation
-
-### Missing Data (MNAR)
-- `engagement_score` and `manager_quality` are Missing Not At Random
-- **Options**: include missingness indicators, use robust models, or apply targeted imputation strategies
-
-### Built-in Interactions
-- **Workload × Manager quality**: Higher workload risk amplified by poor management
-- **Commute × Onsite**: Commute distance matters most for onsite workers
-- Consider interaction-aware models or explicit feature engineering
-
-### Temporal Integrity
-- Ensure features reflect information known by `snapshot_date` when constructing training sets
-- Use proper time-aware splits to prevent data leakage

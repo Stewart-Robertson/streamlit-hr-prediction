@@ -1,16 +1,7 @@
 {
   "high_vif_candidates": [
-    "compa_ratio",
-    "engagement_score",
-    "benefit_score",
-    "avg_raise_3y",
-    "base_salary",
+    "mgmt_workload_score",
     "manager_quality",
-    "age",
-    "workload_score",
-    "performance_rating",
-    "internal_moves_flag",
-    "pto_days_taken",
-    "internal_moves_last_2y"
+    "workload_score"
   ]
 }
