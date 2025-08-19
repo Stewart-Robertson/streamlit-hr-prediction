@@ -1,0 +1,1905 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Predict attrition risk and quantify savings from targeted interventions.">
+      
+      
+      
+      
+        <link rel="prev" href="../scenarios/">
+      
+      
+        <link rel="next" href="../performance/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>Underlying model - HR Turnover Predictor</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-prediction-model-plain-english-under-the-hood" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="HR Turnover Predictor" class="md-header__button md-logo" aria-label="HR Turnover Predictor" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.54 5.54 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13zM0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20zm24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HR Turnover Predictor
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Underlying model
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-2.69L23.31 12 20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Overview
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  How to use
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../savings/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Savings explained
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../scenarios/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  What-if scenarios
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Underlying model
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../performance/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Model performance
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../faq/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  FAQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../glossary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Glossary
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="HR Turnover Predictor" class="md-nav__button md-logo" aria-label="HR Turnover Predictor" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.54 5.54 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13zM0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20zm24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9z"/></svg>
+
+    </a>
+    HR Turnover Predictor
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to use
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../savings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Savings explained
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scenarios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    What-if scenarios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Underlying model
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Underlying model
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-model-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      What the model does
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the model does">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analogy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analogy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-model-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      What the Model Does NOT Do
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-design-choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Design Choices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Design Choices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transparency-by-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transparency by Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calibrated-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calibrated Probabilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-aware-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time-Aware Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-ready" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario-Ready
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-inputs-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Inputs (Features)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Inputs (Features)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#job-pay" class="md-nav__link">
+    <span class="md-ellipsis">
+      Job &amp; Pay
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-progression" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance &amp; Progression
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#work-patterns-wellbeing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Work Patterns &amp; Wellbeing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engagement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Engagement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logistics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizational-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Organizational Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engineered-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Engineered Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicitly-excluded-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explicitly Excluded Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Pipeline
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technical Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Preprocessing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-estimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Estimator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Calibration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Persistence
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation &amp; Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation &amp; Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Split
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-probability-to-business-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Probability to Business Value
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From Probability to Business Value">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-threshold-based-net-savings" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Threshold-Based Net Savings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-threshold-free-expected-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Threshold-Free Expected Value
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-not-a-complex-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Not a Complex Model?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limits-caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limits &amp; Caveats
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Limits &amp; Caveats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#causality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Causality
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Drift
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#group-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Group Effects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairness" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fairness
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Interpretation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#coefficients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coefficients
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partial Effects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calibration-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calibration Check
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reproducibility &amp; Versioning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#governance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Governance Checklist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequently-asked-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frequently Asked Questions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequently Asked Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#is-65-auc-good-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is 65% AUC "good enough"?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-does-net-savings-sometimes-show-0-while-threshold-free-savings-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why does Δ Net Savings sometimes show 0 while threshold-free savings changes?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-we-add-more-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Can we add more drivers?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Model performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-model-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      What the model does
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the model does">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analogy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analogy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-model-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      What the Model Does NOT Do
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-design-choices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Design Choices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Design Choices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transparency-by-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transparency by Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calibrated-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calibrated Probabilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-aware-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time-Aware Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-ready" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario-Ready
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-inputs-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Inputs (Features)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Inputs (Features)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#job-pay" class="md-nav__link">
+    <span class="md-ellipsis">
+      Job &amp; Pay
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-progression" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance &amp; Progression
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#work-patterns-wellbeing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Work Patterns &amp; Wellbeing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engagement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Engagement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logistics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizational-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Organizational Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engineered-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Engineered Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicitly-excluded-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explicitly Excluded Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Pipeline
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technical Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Preprocessing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-estimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Estimator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Calibration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Persistence
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation &amp; Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation &amp; Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Split
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-probability-to-business-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Probability to Business Value
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From Probability to Business Value">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-threshold-based-net-savings" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Threshold-Based Net Savings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-threshold-free-expected-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Threshold-Free Expected Value
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-not-a-complex-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Not a Complex Model?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limits-caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limits &amp; Caveats
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Limits &amp; Caveats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#causality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Causality
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Drift
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#group-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Group Effects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairness" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fairness
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Interpretation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#coefficients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coefficients
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partial Effects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calibration-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calibration Check
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reproducibility &amp; Versioning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#governance-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Governance Checklist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequently-asked-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frequently Asked Questions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequently Asked Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#is-65-auc-good-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is 65% AUC "good enough"?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-does-net-savings-sometimes-show-0-while-threshold-free-savings-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why does Δ Net Savings sometimes show 0 while threshold-free savings changes?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-we-add-more-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Can we add more drivers?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="the-prediction-model-plain-english-under-the-hood">The Prediction Model (Plain English + Under the Hood)</h1>
+<div class="admonition note">
+<p class="admonition-title">TL;DR</p>
+<p>The app uses a calibrated logistic regression model to estimate each employee’s probability of leaving.
+It’s trained on historical snapshots up to 2022 and validated on 2023 to mimic how it would perform in the next year.
+Results are turned into actionable savings estimates using your assumptions (intervention cost, effectiveness, replacement cost).</p>
+</div>
+<h2 id="what-the-model-does">What the model does</h2>
+<p>Think of the model like a <strong>weather forecast for attrition</strong>:</p>
+<ul>
+<li>Each person gets a risk score (0–100%) — "how likely is rain (attrition) for this person?"</li>
+<li>We don't claim certainty for any individual. Instead, we use these probabilities to prioritise attention (like taking an umbrella if rain is likely)</li>
+<li>The app lets you test what-if levers (e.g., reduce workload) and instantly see how the forecast and savings might change</li>
+</ul>
+<h3 id="analogy">Analogy</h3>
+<p>You could think of logistic regression as a <strong>weighted checklist</strong>. For example, heavier workload and long commute may push risk up; higher pay competitiveness may push risk down. The model learns how much each factor matters based on past outcomes.</p>
+<hr />
+<h2 id="what-the-model-does-not-do">What the Model Does NOT Do</h2>
+<table>
+<thead>
+<tr>
+<th>Limitation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Decision Making</strong></td>
+<td>It doesn't decide who to keep or let go — it's decision support</td>
+</tr>
+<tr>
+<td><strong>Future Prediction</strong></td>
+<td>It doesn't know the future. It extrapolates from patterns in your historical snapshots</td>
+</tr>
+<tr>
+<td><strong>Post-Decision Learning</strong></td>
+<td>It doesn't see post-decision outcomes (e.g., exit interviews, tickets) that would leak future information into training</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="key-design-choices">Key Design Choices</h2>
+<h3 id="transparency-by-design">Transparency by Design</h3>
+<p>Logistic regression is easy to inspect and explain, a better fit for HR decision-making than black-box models when accuracy is similar.</p>
+<h3 id="calibrated-probabilities">Calibrated Probabilities</h3>
+<p>We calibrate the model so "30% risk" roughly means "30 out of 100 similar employees leave."</p>
+<h3 id="time-aware-validation">Time-Aware Validation</h3>
+<p>Train on ≤2022, evaluate on 2023. This prevents "peeking" into the future and gives a realistic performance estimate.</p>
+<h3 id="scenario-ready">Scenario-Ready</h3>
+<p>We engineered a feature (<code>mgmt_workload_score</code>) so what-if changes to workload and manager quality flow through to risk.</p>
+<hr />
+<h2 id="model-inputs-features">Model Inputs (Features)</h2>
+<p>From the cleaned dataset (<code>data/processed/hr_attrition_clean.csv</code>), the model uses:</p>
+<h3 id="job-pay">Job &amp; Pay</h3>
+<ul>
+<li><code>base_salary</code> (pay level)</li>
+<li><em><code>salary_band</code></em> (dropped to avoid duplication)</li>
+<li><em><code>compa_ratio</code></em> (dropped in final model due to collinearity)</li>
+</ul>
+<h3 id="performance-progression">Performance &amp; Progression</h3>
+<ul>
+<li><code>performance_rating</code></li>
+<li><em><code>avg_raise_3y</code></em> (dropped)</li>
+<li><em><code>internal_moves_last_2y</code></em> (dropped)</li>
+<li><code>time_since_last_promo_yrs</code></li>
+</ul>
+<h3 id="work-patterns-wellbeing">Work Patterns &amp; Wellbeing</h3>
+<ul>
+<li><code>workload_score</code></li>
+<li><code>overtime_hours_month</code></li>
+<li><code>sick_days</code></li>
+<li><code>pto_days_taken</code></li>
+</ul>
+<h3 id="engagement">Engagement</h3>
+<ul>
+<li><code>engagement_score</code></li>
+<li><code>manager_quality</code> (missingness is informative; also used in interaction below)</li>
+</ul>
+<h3 id="logistics">Logistics</h3>
+<ul>
+<li><code>commute_km</code></li>
+<li><code>onsite/remote</code> (if present)</li>
+<li><code>night_shift</code></li>
+</ul>
+<h3 id="organizational-context">Organizational Context</h3>
+<ul>
+<li><code>department</code></li>
+<li><code>role</code></li>
+<li><code>team_id</code> (as categorical signals)</li>
+</ul>
+<h3 id="engineered-features">Engineered Features</h3>
+<ul>
+<li><code>mgmt_workload_score = (10 − manager_quality) × workload_score</code><br>
+  <em>Captures that high workload under poorer management is especially risky</em></li>
+</ul>
+<h3 id="explicitly-excluded-features">Explicitly Excluded Features</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Features</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Identifiers</strong></td>
+<td><code>employee_id</code></td>
+<td>Not predictive</td>
+</tr>
+<tr>
+<td><strong>Post-Decision Signals</strong></td>
+<td><code>exit_interview_scheduled</code>, <code>offboarding_ticket_created</code></td>
+<td>Data leakage</td>
+</tr>
+<tr>
+<td><strong>Duplicates/Collinear</strong></td>
+<td><code>salary_band</code>, high-VIF pay proxies (<code>compa_ratio</code>, <code>avg_raise_3y</code>, <code>benefit_score</code>)</td>
+<td>Redundancy/collinearity</td>
+</tr>
+<tr>
+<td><strong>Split Key</strong></td>
+<td><code>snapshot_year</code></td>
+<td>Used to split, not to predict</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Missing Values</p>
+<p>Missing <code>manager_quality</code> can itself be a signal. The pipeline treats missing values via encoding/scaling, and the engineered interaction uses a conservative floor (e.g., treats missing as 1 for the "quality" term in the what-if mechanism).</p>
+</div>
+<hr />
+<h2 id="technical-pipeline">Technical Pipeline</h2>
+<h3 id="1-preprocessing">1. Preprocessing</h3>
+<ul>
+<li><strong>Numerical</strong>: <code>StandardScaler(with_mean=False)</code></li>
+<li><strong>Categorical</strong>: <code>OneHotEncoder(handle_unknown="ignore", sparse=True)</code></li>
+<li><strong>Combined</strong>: <code>ColumnTransformer</code></li>
+</ul>
+<h3 id="2-estimator">2. Estimator</h3>
+<ul>
+<li><code>LogisticRegression(max_iter=1000)</code> trained on data ≤2022</li>
+</ul>
+<h3 id="3-calibration">3. Calibration</h3>
+<ul>
+<li><code>CalibratedClassifierCV(cv="prefit")</code> with isotonic or sigmoid chosen by lower Brier score on the 2023 set</li>
+</ul>
+<h3 id="4-persistence">4. Persistence</h3>
+<ul>
+<li><strong>Model</strong>: <code>models/attrition_lr_calibrated_train_to_2022_skl171.pkl</code></li>
+<li><strong>Metrics</strong>: <code>models/attrition_lr_calibrated_metrics_train_to_2022_skl171.json</code></li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Why Calibration?</p>
+<p>Uncalibrated models can be over- or under-confident. Calibration aligns predicted probabilities with observed rates — crucial when you convert probabilities into expected savings.</p>
+</div>
+<hr />
+<h2 id="validation-performance">Validation &amp; Performance</h2>
+<h3 id="data-split">Data Split</h3>
+<ul>
+<li><strong>Train</strong>: Snapshots ≤2022</li>
+<li><strong>Calibrate/Evaluate</strong>: 2023</li>
+</ul>
+<h3 id="key-metrics">Key Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ROC AUC</strong></td>
+<td>Overall ranking quality (closer to 1 is better)</td>
+</tr>
+<tr>
+<td><strong>PR AUC</strong></td>
+<td>Useful when attrition is rare</td>
+</tr>
+<tr>
+<td><strong>Lift by Decile</strong></td>
+<td>Business-friendly: top 10% risk vs average rate</td>
+</tr>
+<tr>
+<td><strong>Calibration</strong></td>
+<td>Through the chosen calibration method (implicit)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Interpreting Lift</p>
+<p>If Decile 1 shows 3× lift, your top-risk 10% is three times as likely to contain real leavers as a random 10%. That's strong targeting signal.</p>
+</div>
+<hr />
+<h2 id="from-probability-to-business-value">From Probability to Business Value</h2>
+<p>Two complementary savings views power the app:</p>
+<h3 id="1-threshold-based-net-savings">1. Threshold-Based Net Savings</h3>
+<p>Pick a risk threshold; treat everyone above it.</p>
+<div class="highlight"><pre><span></span><code>Saved cost = (True Positives × effectiveness × replacement_cost)
+Spend = (Flagged × intervention_cost)
+Net = Saved − Spend
+</code></pre></div>
+<p><strong>Good for</strong>: Operational reporting, precision/recall trade-offs</p>
+<h3 id="2-threshold-free-expected-value">2. Threshold-Free Expected Value</h3>
+<p>Sum expected value across the treated cohort (Top-K or Threshold with Coverage):</p>
+<div class="highlight"><pre><span></span><code>Per person EV = effectiveness × replacement_cost × predicted_risk − intervention_cost
+</code></pre></div>
+<p><strong>Good for</strong>: Comparing levers &amp; strategies without being sensitive to a single threshold</p>
+<hr />
+<h2 id="why-not-a-complex-model">Why Not a Complex Model?</h2>
+<p>We tried Random Forest and XGBoost variants; in this dataset, logistic regression performed comparably (AUC around ~0.65) but offered <strong>much better interpretability and governance</strong>. When accuracy differences are marginal, simpler + explainable is the right HR choice.</p>
+<hr />
+<h2 id="limits-caveats">Limits &amp; Caveats</h2>
+<h3 id="causality">Causality</h3>
+<p>The model captures associations, not guaranteed causes. Use it to prioritise conversations and support, not as an automated decision engine.</p>
+<h3 id="data-drift">Data Drift</h3>
+<p>If your org changes (hybrid policies, comp structure), refresh training and re-calibrate. The app's time-aware split is a safeguard, not a guarantee.</p>
+<h3 id="group-effects">Group Effects</h3>
+<p><code>team_id</code> can encode manager/team culture. If governance requires, add GroupKFold validation by team to quantify sensitivity.</p>
+<h3 id="fairness">Fairness</h3>
+<p>Always review risk &amp; intervention rates by relevant groups (e.g., function, location). Add governance checks before production use.</p>
+<hr />
+<h2 id="model-interpretation">Model Interpretation</h2>
+<h3 id="coefficients">Coefficients</h3>
+<p>In logistic regression, each feature has a weight:
+- <strong>Positive weight</strong> → increases log-odds of attrition
+- <strong>Negative weight</strong> → decreases log-odds of attrition</p>
+<p>You can export coefficients and a per-feature report for HR/legal review.</p>
+<h3 id="partial-effects">Partial Effects</h3>
+<p>Use decile tables or partial dependence for top drivers (e.g., workload ↑, manager quality ↓).</p>
+<h3 id="calibration-check">Calibration Check</h3>
+<p>Compare predicted vs actual rate in bins (the app's lift + AUC and calibration choice are proxies; you can add a reliability curve if needed).</p>
+<hr />
+<h2 id="reproducibility-versioning">Reproducibility &amp; Versioning</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Training Code</strong></td>
+<td><code>src/train_calibrated_lr.py</code></td>
+</tr>
+<tr>
+<td><strong>Serving Code</strong></td>
+<td><code>app/main.py</code></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td><code>data/processed/hr_attrition_clean.csv</code></td>
+</tr>
+<tr>
+<td><strong>Environment</strong></td>
+<td><code>requirements.txt</code> and <code>runtime.txt</code> (Python 3.11)</td>
+</tr>
+<tr>
+<td><strong>Artifacts</strong></td>
+<td>Model <code>.pkl</code> and metrics <code>.json</code> versioned by train cutoff year and sklearn tag</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Enterprise Tip</p>
+<p>For enterprise, log training runs (data hash, params, metrics) in MLflow or DVC, and schedule periodic re-calibration.</p>
+</div>
+<hr />
+<h2 id="governance-checklist">Governance Checklist</h2>
+<p>Ready for productionization:</p>
+<ul>
+<li>Data lineage documented (source, refresh cadence, snapshot definition)</li>
+<li>Feature list reviewed (no prohibited attributes; leakage removed)</li>
+<li>Validation includes time-based and, if required, grouped CV</li>
+<li>Calibration validated on out-of-time data; reliability plot archived</li>
+<li>Fairness report (rates by segment, false positive/negative parity where applicable)</li>
+<li>Monitoring plan (drift, performance drop alerts)</li>
+<li>Human-in-the-loop SOP (how HR acts on risk, audit trail)</li>
+</ul>
+<hr />
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<h3 id="is-65-auc-good-enough">Is 65% AUC "good enough"?</h3>
+<p>For HR attrition with limited features, ~0.6–0.7 is common. Value comes from targeting and what-if planning, not perfect prediction.</p>
+<h3 id="why-does-net-savings-sometimes-show-0-while-threshold-free-savings-changes">Why does Δ Net Savings sometimes show 0 while threshold-free savings changes?</h3>
+<p>Your scenario may shift probabilities without moving many people across the chosen threshold. The threshold-free view captures that subtle improvement.</p>
+<h3 id="can-we-add-more-drivers">Can we add more drivers?</h3>
+<p>Yes — especially manager signals, work pattern telemetry, career progression, and comp competitiveness vs market (with governance).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "navigation.tabs", "navigation.sections", "toc.follow", "content.code.copy", "content.tabs.link", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
