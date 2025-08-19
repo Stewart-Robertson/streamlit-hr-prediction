@@ -12,6 +12,9 @@ from sklearn.metrics import (
     precision_recall_curve, roc_curve, confusion_matrix
 )
 
+# Configure Streamlit page FIRST (must be the first Streamlit command)
+st.set_page_config(page_title="HR Turnover Predictor", layout="wide")
+
 # -----------------------
 # Documentation
 # ----------------------- 
@@ -167,8 +170,6 @@ def lift_table(y_true: pd.Series, y_prob: pd.Series, bins=10) -> pd.DataFrame:
 # -----------------------
 # App
 # -----------------------
-st.set_page_config(page_title="Attrition Risk Explorer", layout="wide")
-st.title("Workplace Attrition Risk — Interactive Demo")
 
 # Sidebar controls
 with st.sidebar:
