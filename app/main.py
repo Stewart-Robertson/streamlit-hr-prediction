@@ -236,37 +236,56 @@ with st.sidebar:
 y_true = scored[TARGET_COL] if TARGET_COL in scored.columns else None
 y_prob = scored["attrition_risk"]
 
-# Executive summary with savings front and center
+# Executive summary — fixed panel
 st.markdown("### Executive summary")
-if y_true is not None:
-    y_pred = (y_prob >= thr).astype(int)
-    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-    # Estimate average replacement cost in $
-    if "base_salary" in scored.columns:
-        avg_salary = scored["base_salary"].mean()
-        repl_cost = avg_salary * avg_replacement_cost
-    else:
-        repl_cost = 50000 * avg_replacement_cost
-    ev_now = expected_value(tp, fp, repl_cost, intervention_cost, effectiveness)
-    c1, c2, c3, c4 = st.columns(4)
-    with c1: st.metric("Flagged employees", f"{int((y_pred==1).sum()):,}")
-    with c2: st.metric("Precision", f"{(tp/(tp+fp) if (tp+fp) else 0):.2f}")
-    with c3: st.metric("Recall", f"{(tp/(tp+fn) if (tp+fn) else 0):.2f}")
-    with c4: st.metric("Net savings (@risk threshold)", fmt_money(ev_now))
-    st.caption("Net savings = prevented leaver cost − intervention spend, at the chosen threshold and sandbox assumptions.")
-else:
-    st.info("Ground‑truth labels not available; savings will display when labels exist.")
+with st.container():
+    st.markdown('<div class="exec-summary">', unsafe_allow_html=True)
 
-cols = st.columns(3)
-with cols[0]:
-    st.metric("Employees", f"{len(scored):,}")
-with cols[1]:
-    st.metric("Mean risk", f"{y_prob.mean():.2f}")
-with cols[2]:
+    # Common quantities
+    n_emps = len(scored)
+    mean_risk = y_prob.mean()
+
+    # Threshold-based metrics & savings
     if y_true is not None:
+        y_pred = (y_prob >= thr).astype(int)
+        tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+        precision = (tp / (tp + fp)) if (tp + fp) else 0.0
+        recall    = (tp / (tp + fn)) if (tp + fn) else 0.0
+        flagged_total = int((y_pred == 1).sum())
+
+        # Replacement cost in $
+        if "base_salary" in scored.columns:
+            avg_salary = scored["base_salary"].mean()
+            repl_cost = avg_salary * avg_replacement_cost
+        else:
+            repl_cost = 50000 * avg_replacement_cost
+        ev_now = expected_value(tp, fp, repl_cost, intervention_cost, effectiveness)
+
+        # Row 1
+        r1c1, r1c2, r1c3 = st.columns(3)
+        with r1c1: st.metric("Net savings (@threshold)", fmt_money(ev_now))
+        with r1c2: st.metric("Flagged employees", f"{flagged_total:,}")
+        with r1c3: st.metric("Precision", f"{precision:.2f}")
+
+        # Row 2
+        r2c1, r2c2, r2c3 = st.columns(3)
+        with r2c1: st.metric("Recall", f"{recall:.2f}")
+        with r2c2: st.metric("Employees", f"{n_emps:,}")
+        with r2c3: st.metric("Mean risk", f"{mean_risk:.2f}")
+
+        # Small performance caption
         auc = roc_auc_score(y_true, y_prob)
-        ap = average_precision_score(y_true, y_prob)
-        st.metric("AUC / PR AUC", f"{auc:.2f} / {ap:.2f}")
+        ap  = average_precision_score(y_true, y_prob)
+        st.caption(f"Model AUC / PR AUC: **{auc:.2f} / {ap:.2f}**  •  Threshold = {thr:.2f}  •  Net = prevented leaver cost − intervention spend (given your sandbox assumptions).")
+    else:
+        # When ground-truth not present, show stable org-level stats
+        r1c1, r1c2, r1c3 = st.columns(3)
+        with r1c1: st.metric("Employees", f"{n_emps:,}")
+        with r1c2: st.metric("Mean risk", f"{mean_risk:.2f}")
+        with r1c3: st.metric("Threshold", f"{thr:.2f}")
+        st.caption("Provide ground‑truth labels to view precision/recall, AUC and threshold‑based savings.")
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # Tabs
 tab_overview, tab_individuals, tab_segments, tab_whatif, tab_method = st.tabs(
