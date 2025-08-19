@@ -17,7 +17,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 # -----------------------
 # CONFIG
 # -----------------------
-DATA_PATH = Path("data/processed/hr_attrition_clean.csv")
+DATA_PATH = Path("../data/processed/hr_attrition_clean.csv")
 MODEL_DIR = Path("models")
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -76,6 +76,7 @@ def load_data(path: Path) -> pd.DataFrame:
 def add_mgmt_workload_features(df: pd.DataFrame, mq_col: str = "manager_quality", wl_col: str = "workload_score") -> pd.DataFrame:
     """
     Create interpretable binary flag and continuous interaction without leakage.
+    - Missing manager quality is imputed to 1 (worst possible).
     - Binary flag (mgmt_workload_risk) is for stakeholder insights (will be dropped from the model).
     - Continuous interaction (mgmt_workload_score) is used by the model; scaling handled in pipeline.
     If required columns are missing, this is a no-op.
@@ -83,7 +84,7 @@ def add_mgmt_workload_features(df: pd.DataFrame, mq_col: str = "manager_quality"
     if mq_col not in df.columns or wl_col not in df.columns:
         return df
 
-    mq = df[mq_col]
+    mq = df[mq_col].fillna(1)
     wl = df[wl_col]
 
     # Binary flag for insights (kept in dataframe, dropped from modeling features)
@@ -94,15 +95,38 @@ def add_mgmt_workload_features(df: pd.DataFrame, mq_col: str = "manager_quality"
     return df
 
 def make_feature_frame(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
-    drop_cols = [c for c in (DOMAIN_LEAKAGE_DROPS + VIF_INFORMED_DROPS) if c in df.columns]
-    dfm = df.drop(columns=drop_cols, errors="ignore")
-    dfm = add_mgmt_workload_features(dfm)
-    if "mgmt_workload_risk" in dfm.columns:
-        dfm = dfm.drop(columns=["mgmt_workload_risk"])
+    """
+    Build the modeling frame:
+    1) Start from the raw df.
+    2) Add engineered features that depend on manager_quality/workload_score.
+    3) Drop leakage/identifier/year and VIF-informed columns (incl. manager_quality itself).
+    4) Remove the binary insight flag from modeling features.
+    """
     if TARGET_COL not in df.columns:
         raise ValueError(f"Target column {TARGET_COL} not found.")
+
+    # 1–2) Add engineered features BEFORE dropping source columns
+    dfm = df.copy()
+    dfm = add_mgmt_workload_features(dfm)
+
+    # 3) Drop leakage/identifier/year + VIF-informed
+    drop_cols = [c for c in (DOMAIN_LEAKAGE_DROPS + VIF_INFORMED_DROPS) if c in dfm.columns]
+    dfm = dfm.drop(columns=drop_cols, errors="ignore")
+
+    # 4) Do not feed the binary risk flag into the model
+    if "mgmt_workload_risk" in dfm.columns:
+        dfm = dfm.drop(columns=["mgmt_workload_risk"])
+
+    # Split X/y
     X = dfm.drop(columns=[TARGET_COL], errors="ignore")
     y = df[TARGET_COL].astype(int)
+
+    # Safety check: ensure engineered continuous feature exists if source cols existed
+    if {"manager_quality", "workload_score"}.issubset(set(df.columns)):
+        assert "mgmt_workload_score" in X.columns, (
+            "Expected engineered feature 'mgmt_workload_score' to exist. "
+            "Ensure feature engineering runs before drops."
+        )
     return X, y
 
 def split_time(X: pd.DataFrame, y: pd.Series, years: pd.Series, train_max_year: int):
@@ -121,7 +145,7 @@ def build_preprocess(X: pd.DataFrame) -> ColumnTransformer:
     pre = ColumnTransformer(
         transformers=[
             ("num", StandardScaler(with_mean=False), num_cols),
-            ("cat", OneHotEncoder(handle_unknown="ignore"), cat_cols),
+            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), cat_cols),
         ],
         remainder="drop",
     )
