@@ -1,0 +1,1028 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Predict attrition risk and quantify savings from targeted interventions.">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>Employee Attrition Dataset - Data Dictionary - HR Turnover Predictor</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#employee-attrition-dataset-data-dictionary" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="HR Turnover Predictor" class="md-header__button md-logo" aria-label="HR Turnover Predictor" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.54 5.54 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13zM0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20zm24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HR Turnover Predictor
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Employee Attrition Dataset - Data Dictionary
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Overview
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  How to use
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../savings/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Savings explained
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../scenarios/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  What-if scenarios
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../performance/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Model performance
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../faq/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  FAQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../glossary/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Glossary
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="HR Turnover Predictor" class="md-nav__button md-logo" aria-label="HR Turnover Predictor" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.54 5.54 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13zM0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20zm24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9z"/></svg>
+
+    </a>
+    HR Turnover Predictor
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How to use
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../savings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Savings explained
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scenarios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    What-if scenarios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Model performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#identifiers-dates" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Identifiers &amp; Dates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#organization-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏢 Organization &amp; Role
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compensation-progression" class="md-nav__link">
+    <span class="md-ellipsis">
+      💰 Compensation &amp; Progression
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-engagement-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Performance, Engagement &amp; Development
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#work-pattern-schedule-commute" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏠 Work Pattern, Schedule &amp; Commute
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-off-leaves" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏖️ Time Off &amp; Leaves
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-known-leakage-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Target &amp; Known Leakage Columns
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="employee-attrition-dataset-data-dictionary">Employee Attrition Dataset - Data Dictionary</h1>
+<p>A comprehensive data dictionary covering all columns in the employee attrition prediction dataset, including derived fields and embedded signals for modeling.</p>
+<hr />
+<h2 id="identifiers-dates">📋 Identifiers &amp; Dates</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>employee_id</code></td>
+<td>Integer</td>
+<td>Unique</td>
+<td>Employee identifier</td>
+<td>Do not use in modelling (identifier only).</td>
+</tr>
+<tr>
+<td><code>snapshot_date</code></td>
+<td>Date (YYYY-MM-DD)</td>
+<td>2020-01-01 → 2024-12-31</td>
+<td>Observation date for features</td>
+<td>Use for time-aware splits (e.g., train ≤2023, test = 2024).</td>
+</tr>
+<tr>
+<td><code>hire_date</code></td>
+<td>Date (YYYY-MM-DD)</td>
+<td>Earlier than snapshot_date</td>
+<td>Original hire date</td>
+<td>Used to derive tenure.</td>
+</tr>
+<tr>
+<td><code>tenure_years</code></td>
+<td>Float (2 d.p.)</td>
+<td>≥ 0</td>
+<td>Years at company at snapshot</td>
+<td>U-shape risk: higher in first year, dip in years 1–3, slight rise after ~7y.</td>
+</tr>
+<tr>
+<td><code>months_since_hire</code></td>
+<td>Float (1 d.p.)</td>
+<td>≥ 0</td>
+<td>Months since hire at snapshot</td>
+<td>Same signal as tenure; convenience for models.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="organization-role">🏢 Organization &amp; Role</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>region</code></td>
+<td>Categorical</td>
+<td>AMER, EMEA, APAC</td>
+<td>Work region</td>
+<td>Mild mix effects only (no strong bias).</td>
+</tr>
+<tr>
+<td><code>department</code></td>
+<td>Categorical</td>
+<td>Sales, Engineering, Customer Success, Marketing, Finance, HR, Operations, Product</td>
+<td>Functional area</td>
+<td>Small base-rate shifts by department (e.g., Sales slightly higher).</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>Categorical</td>
+<td>Dept-specific titles (e.g., SWE II, PM, AE, CSM, etc.)</td>
+<td>Job title</td>
+<td>Captures labour-market pull and career path nuance.</td>
+</tr>
+<tr>
+<td><code>level</code></td>
+<td>Categorical</td>
+<td>IC1, IC2, IC3, IC4, Manager, Director, VP</td>
+<td>Seniority level</td>
+<td>Drives market pay reference; leadership relates to lower attrition.</td>
+</tr>
+<tr>
+<td><code>is_manager</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Manager indicator</td>
+<td>Managers tend to attrit less, all else equal.</td>
+</tr>
+<tr>
+<td><code>team_id</code></td>
+<td>Integer</td>
+<td>1–400</td>
+<td>Team cluster ID</td>
+<td>Adds random effects → correlated outcomes within teams.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="compensation-progression">💰 Compensation &amp; Progression</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>base_salary</code></td>
+<td>Float (0 d.p.)</td>
+<td>≈ 45k–∞ (currency-agnostic)</td>
+<td>Annual base pay</td>
+<td>Relative to market reference matters more than absolute.</td>
+</tr>
+<tr>
+<td><code>compa_ratio</code></td>
+<td>Float (2 d.p.)</td>
+<td>≈ 0.6–1.5 (typ.)</td>
+<td>base_salary / market_ref(dept×level)</td>
+<td>Below 1.0 increases risk; above 1.0 reduces risk.</td>
+</tr>
+<tr>
+<td><code>avg_raise_3y</code></td>
+<td>Float (3 d.p.)</td>
+<td>≥ 0 (typ. ~0–0.08)</td>
+<td>Mean merit raise % over last 3 cycles</td>
+<td>Higher raises → lower risk.</td>
+</tr>
+<tr>
+<td><code>time_since_last_promo_yrs</code></td>
+<td>Float (2 d.p.)</td>
+<td>≥ 0</td>
+<td>Years since last promotion</td>
+<td>Risk rises after ~3 years without promotion.</td>
+</tr>
+<tr>
+<td><code>internal_moves_last_2y</code></td>
+<td>Integer</td>
+<td>0+</td>
+<td>Internal transfers in last 2 years</td>
+<td>More internal mobility → lower risk.</td>
+</tr>
+<tr>
+<td><code>stock_grants</code></td>
+<td>Float (0 d.p.)</td>
+<td>0 or &gt;0 for senior/IC4+</td>
+<td>Equity value (approx.)</td>
+<td>Higher equity slightly reduces risk.</td>
+</tr>
+<tr>
+<td><code>salary_band</code></td>
+<td>Categorical</td>
+<td>Q1…Q5</td>
+<td>Pay quantile across the snapshot</td>
+<td>Convenience feature; derived from base_salary.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="performance-engagement-development">📈 Performance, Engagement &amp; Development</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>performance_rating</code></td>
+<td>Integer</td>
+<td>1–5</td>
+<td>Most recent performance score</td>
+<td>Higher rating → lower risk (also interacts with progression).</td>
+</tr>
+<tr>
+<td><code>engagement_score</code></td>
+<td>Float (2 d.p.)</td>
+<td>1–10 or NaN</td>
+<td>Survey engagement</td>
+<td>Lower → higher risk. MNAR missingness (disengaged more likely missing).</td>
+</tr>
+<tr>
+<td><code>manager_quality</code></td>
+<td>Float (2 d.p.)</td>
+<td>1–10 or NaN</td>
+<td>Perceived manager quality</td>
+<td>Lower → higher risk. MNAR missingness (worse mgr → more missing).</td>
+</tr>
+<tr>
+<td><code>workload_score</code></td>
+<td>Float (2 d.p.)</td>
+<td>1–10</td>
+<td>Self-reported workload</td>
+<td>Higher workload increases risk, especially if manager quality is low (interaction).</td>
+</tr>
+<tr>
+<td><code>learning_hours_last_yr</code></td>
+<td>Float (1 d.p.)</td>
+<td>≥ 0</td>
+<td>Formal learning hours last year</td>
+<td>Slight retention effect (more learning → slightly lower risk).</td>
+</tr>
+<tr>
+<td><code>benefit_score</code></td>
+<td>Float (2 d.p.)</td>
+<td>1–10</td>
+<td>Perceived benefits quality</td>
+<td>Higher benefits → lower risk.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="work-pattern-schedule-commute">🏠 Work Pattern, Schedule &amp; Commute</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>remote_status</code></td>
+<td>Categorical</td>
+<td>Remote, Hybrid, Onsite</td>
+<td>Work arrangement</td>
+<td>Onsite/Hybrid carry small added risk vs Remote.</td>
+</tr>
+<tr>
+<td><code>commute_km</code></td>
+<td>Float (1 d.p.)</td>
+<td>0–high</td>
+<td>One-way commute distance</td>
+<td>Longer commute → higher risk, strongest for Onsite (interaction).</td>
+</tr>
+<tr>
+<td><code>overtime_hours_month</code></td>
+<td>Float (1 d.p.)</td>
+<td>≥ 0</td>
+<td>Avg monthly overtime</td>
+<td>Heavier OT correlates with risk via workload sentiment.</td>
+</tr>
+<tr>
+<td><code>night_shift</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Night-shift indicator</td>
+<td>Increases risk.</td>
+</tr>
+<tr>
+<td><code>schedule_flex</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Flexible schedule option</td>
+<td>Reduces risk.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="time-off-leaves">🏖️ Time Off &amp; Leaves</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sick_days</code></td>
+<td>Float (1 d.p.)</td>
+<td>≥ 0</td>
+<td>Sick days taken in last year</td>
+<td>Small non-linear signal (both unusually high/low carry info).</td>
+</tr>
+<tr>
+<td><code>pto_days_taken</code></td>
+<td>Float (1 d.p.)</td>
+<td>0–40 (typ.)</td>
+<td>Paid time off taken in last year</td>
+<td>Contextual; moderate PTO often neutral/healthy.</td>
+</tr>
+<tr>
+<td><code>leave_last_yr</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Any extended leave last year</td>
+<td>Slight positive risk bump.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="target-known-leakage-columns">🎯 Target &amp; Known Leakage Columns</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>attrited</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td><strong>Target</strong>: left in the next period</td>
+<td>Drawn from structured probability combining all signals (incl. team &amp; macro drift).</td>
+</tr>
+<tr>
+<td><code>exit_interview_scheduled</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Process flag</td>
+<td>⚠️ <strong>LEAKAGE</strong>: strongly tied to outcome; exclude at train time.</td>
+</tr>
+<tr>
+<td><code>offboarding_ticket_created</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>IT/HR offboarding flag</td>
+<td>⚠️ <strong>LEAKAGE</strong>: strongly tied to outcome; exclude at train time.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "navigation.tabs", "navigation.sections", "toc.follow", "content.code.copy", "content.tabs.link", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>

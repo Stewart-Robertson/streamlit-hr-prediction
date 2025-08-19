@@ -1,0 +1,43 @@
+site_name: HR Turnover Predictor
+site_description: Predict attrition risk and quantify savings from targeted interventions.
+theme:
+  name: material
+  features:
+    - navigation.top
+    - navigation.tabs
+    - navigation.sections
+    - toc.follow
+    - content.code.copy
+    - content.tabs.link
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-2 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-5
+        name: Switch to light mode
+  icon:
+    logo: material/account-group
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed
+  - attr_list
+nav:
+  - Overview: index.md
+  - How to use: usage.md
+  - Savings explained: savings.md
+  - What-if scenarios: scenarios.md
+  - Model performance: performance.md
+  - FAQ: faq.md
+  - Glossary: glossary.md
