@@ -11,10 +11,6 @@
       
       
       
-        <link rel="prev" href="../scenarios/">
-      
-      
-        <link rel="next" href="../faq/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -22,7 +18,7 @@
     
     
       
-        <title>Model performance - HR Turnover Predictor</title>
+        <title>Employee Attrition Dataset - Data Dictionary - HR Turnover Predictor</title>
       
     
     
@@ -74,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#model-performance-plain-english" class="md-skip">
+        <a href="#employee-attrition-dataset-data-dictionary" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Model performance
+              Employee Attrition Dataset - Data Dictionary
             
           </span>
         </div>
@@ -283,11 +279,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../performance/" class="md-tabs__link">
         
   
   
@@ -463,32 +457,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Model performance
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
         
   
   
@@ -499,44 +471,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#roc-curve" class="md-nav__link">
-    <span class="md-ellipsis">
-      ROC curve
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lift-by-decile" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lift by decile
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -612,18 +546,63 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#roc-curve" class="md-nav__link">
+  <a href="#identifiers-dates" class="md-nav__link">
     <span class="md-ellipsis">
-      ROC curve
+      📋 Identifiers &amp; Dates
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#lift-by-decile" class="md-nav__link">
+  <a href="#organization-role" class="md-nav__link">
     <span class="md-ellipsis">
-      Lift by decile
+      🏢 Organization &amp; Role
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compensation-progression" class="md-nav__link">
+    <span class="md-ellipsis">
+      💰 Compensation &amp; Progression
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-engagement-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Performance, Engagement &amp; Development
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#work-pattern-schedule-commute" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏠 Work Pattern, Schedule &amp; Commute
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-off-leaves" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏖️ Time Off &amp; Leaves
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-known-leakage-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Target &amp; Known Leakage Columns
     </span>
   </a>
   
@@ -645,18 +624,358 @@
 
 
 
-<h1 id="model-performance-plain-english">Model performance (plain English)</h1>
-<h2 id="roc-curve">ROC curve</h2>
-<ul>
-<li>Shows how well the model separates leavers vs stayers over all cut-offs.</li>
-<li><strong>AUC</strong> close to 1.0 is great; ~0.65–0.75 is common for HR attrition.</li>
-<li>Use it to pick reasonable thresholds, not to claim perfection.</li>
-</ul>
-<h2 id="lift-by-decile">Lift by decile</h2>
-<ul>
-<li>Ranks employees by risk, splits into 10 equal buckets.</li>
-<li><strong>Lift</strong> &gt; 2 in the top decile means the model doubles the attrition rate vs average → excellent for targeting.</li>
-</ul>
+<h1 id="employee-attrition-dataset-data-dictionary">Employee Attrition Dataset - Data Dictionary</h1>
+<p>A comprehensive data dictionary covering all columns in the employee attrition prediction dataset, including derived fields and embedded signals for modeling.</p>
+<hr />
+<h2 id="identifiers-dates">📋 Identifiers &amp; Dates</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>employee_id</code></td>
+<td>Integer</td>
+<td>Unique</td>
+<td>Employee identifier</td>
+<td>Do not use in modelling (identifier only).</td>
+</tr>
+<tr>
+<td><code>snapshot_date</code></td>
+<td>Date (YYYY-MM-DD)</td>
+<td>2020-01-01 → 2024-12-31</td>
+<td>Observation date for features</td>
+<td>Use for time-aware splits (e.g., train ≤2023, test = 2024).</td>
+</tr>
+<tr>
+<td><code>hire_date</code></td>
+<td>Date (YYYY-MM-DD)</td>
+<td>Earlier than snapshot_date</td>
+<td>Original hire date</td>
+<td>Used to derive tenure.</td>
+</tr>
+<tr>
+<td><code>tenure_years</code></td>
+<td>Float (2 d.p.)</td>
+<td>≥ 0</td>
+<td>Years at company at snapshot</td>
+<td>U-shape risk: higher in first year, dip in years 1–3, slight rise after ~7y.</td>
+</tr>
+<tr>
+<td><code>months_since_hire</code></td>
+<td>Float (1 d.p.)</td>
+<td>≥ 0</td>
+<td>Months since hire at snapshot</td>
+<td>Same signal as tenure; convenience for models.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="organization-role">🏢 Organization &amp; Role</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>region</code></td>
+<td>Categorical</td>
+<td>AMER, EMEA, APAC</td>
+<td>Work region</td>
+<td>Mild mix effects only (no strong bias).</td>
+</tr>
+<tr>
+<td><code>department</code></td>
+<td>Categorical</td>
+<td>Sales, Engineering, Customer Success, Marketing, Finance, HR, Operations, Product</td>
+<td>Functional area</td>
+<td>Small base-rate shifts by department (e.g., Sales slightly higher).</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>Categorical</td>
+<td>Dept-specific titles (e.g., SWE II, PM, AE, CSM, etc.)</td>
+<td>Job title</td>
+<td>Captures labour-market pull and career path nuance.</td>
+</tr>
+<tr>
+<td><code>level</code></td>
+<td>Categorical</td>
+<td>IC1, IC2, IC3, IC4, Manager, Director, VP</td>
+<td>Seniority level</td>
+<td>Drives market pay reference; leadership relates to lower attrition.</td>
+</tr>
+<tr>
+<td><code>is_manager</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Manager indicator</td>
+<td>Managers tend to attrit less, all else equal.</td>
+</tr>
+<tr>
+<td><code>team_id</code></td>
+<td>Integer</td>
+<td>1–400</td>
+<td>Team cluster ID</td>
+<td>Adds random effects → correlated outcomes within teams.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="compensation-progression">💰 Compensation &amp; Progression</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>base_salary</code></td>
+<td>Float (0 d.p.)</td>
+<td>≈ 45k–∞ (currency-agnostic)</td>
+<td>Annual base pay</td>
+<td>Relative to market reference matters more than absolute.</td>
+</tr>
+<tr>
+<td><code>compa_ratio</code></td>
+<td>Float (2 d.p.)</td>
+<td>≈ 0.6–1.5 (typ.)</td>
+<td>base_salary / market_ref(dept×level)</td>
+<td>Below 1.0 increases risk; above 1.0 reduces risk.</td>
+</tr>
+<tr>
+<td><code>avg_raise_3y</code></td>
+<td>Float (3 d.p.)</td>
+<td>≥ 0 (typ. ~0–0.08)</td>
+<td>Mean merit raise % over last 3 cycles</td>
+<td>Higher raises → lower risk.</td>
+</tr>
+<tr>
+<td><code>time_since_last_promo_yrs</code></td>
+<td>Float (2 d.p.)</td>
+<td>≥ 0</td>
+<td>Years since last promotion</td>
+<td>Risk rises after ~3 years without promotion.</td>
+</tr>
+<tr>
+<td><code>internal_moves_last_2y</code></td>
+<td>Integer</td>
+<td>0+</td>
+<td>Internal transfers in last 2 years</td>
+<td>More internal mobility → lower risk.</td>
+</tr>
+<tr>
+<td><code>stock_grants</code></td>
+<td>Float (0 d.p.)</td>
+<td>0 or &gt;0 for senior/IC4+</td>
+<td>Equity value (approx.)</td>
+<td>Higher equity slightly reduces risk.</td>
+</tr>
+<tr>
+<td><code>salary_band</code></td>
+<td>Categorical</td>
+<td>Q1…Q5</td>
+<td>Pay quantile across the snapshot</td>
+<td>Convenience feature; derived from base_salary.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="performance-engagement-development">📈 Performance, Engagement &amp; Development</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>performance_rating</code></td>
+<td>Integer</td>
+<td>1–5</td>
+<td>Most recent performance score</td>
+<td>Higher rating → lower risk (also interacts with progression).</td>
+</tr>
+<tr>
+<td><code>engagement_score</code></td>
+<td>Float (2 d.p.)</td>
+<td>1–10 or NaN</td>
+<td>Survey engagement</td>
+<td>Lower → higher risk. MNAR missingness (disengaged more likely missing).</td>
+</tr>
+<tr>
+<td><code>manager_quality</code></td>
+<td>Float (2 d.p.)</td>
+<td>1–10 or NaN</td>
+<td>Perceived manager quality</td>
+<td>Lower → higher risk. MNAR missingness (worse mgr → more missing).</td>
+</tr>
+<tr>
+<td><code>workload_score</code></td>
+<td>Float (2 d.p.)</td>
+<td>1–10</td>
+<td>Self-reported workload</td>
+<td>Higher workload increases risk, especially if manager quality is low (interaction).</td>
+</tr>
+<tr>
+<td><code>learning_hours_last_yr</code></td>
+<td>Float (1 d.p.)</td>
+<td>≥ 0</td>
+<td>Formal learning hours last year</td>
+<td>Slight retention effect (more learning → slightly lower risk).</td>
+</tr>
+<tr>
+<td><code>benefit_score</code></td>
+<td>Float (2 d.p.)</td>
+<td>1–10</td>
+<td>Perceived benefits quality</td>
+<td>Higher benefits → lower risk.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="work-pattern-schedule-commute">🏠 Work Pattern, Schedule &amp; Commute</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>remote_status</code></td>
+<td>Categorical</td>
+<td>Remote, Hybrid, Onsite</td>
+<td>Work arrangement</td>
+<td>Onsite/Hybrid carry small added risk vs Remote.</td>
+</tr>
+<tr>
+<td><code>commute_km</code></td>
+<td>Float (1 d.p.)</td>
+<td>0–high</td>
+<td>One-way commute distance</td>
+<td>Longer commute → higher risk, strongest for Onsite (interaction).</td>
+</tr>
+<tr>
+<td><code>overtime_hours_month</code></td>
+<td>Float (1 d.p.)</td>
+<td>≥ 0</td>
+<td>Avg monthly overtime</td>
+<td>Heavier OT correlates with risk via workload sentiment.</td>
+</tr>
+<tr>
+<td><code>night_shift</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Night-shift indicator</td>
+<td>Increases risk.</td>
+</tr>
+<tr>
+<td><code>schedule_flex</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Flexible schedule option</td>
+<td>Reduces risk.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="time-off-leaves">🏖️ Time Off &amp; Leaves</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sick_days</code></td>
+<td>Float (1 d.p.)</td>
+<td>≥ 0</td>
+<td>Sick days taken in last year</td>
+<td>Small non-linear signal (both unusually high/low carry info).</td>
+</tr>
+<tr>
+<td><code>pto_days_taken</code></td>
+<td>Float (1 d.p.)</td>
+<td>0–40 (typ.)</td>
+<td>Paid time off taken in last year</td>
+<td>Contextual; moderate PTO often neutral/healthy.</td>
+</tr>
+<tr>
+<td><code>leave_last_yr</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Any extended leave last year</td>
+<td>Slight positive risk bump.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="target-known-leakage-columns">🎯 Target &amp; Known Leakage Columns</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Values / Range</th>
+<th>Description</th>
+<th>Embedded Signal / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>attrited</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td><strong>Target</strong>: left in the next period</td>
+<td>Drawn from structured probability combining all signals (incl. team &amp; macro drift).</td>
+</tr>
+<tr>
+<td><code>exit_interview_scheduled</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>Process flag</td>
+<td>⚠️ <strong>LEAKAGE</strong>: strongly tied to outcome; exclude at train time.</td>
+</tr>
+<tr>
+<td><code>offboarding_ticket_created</code></td>
+<td>Binary (0/1)</td>
+<td>0 or 1</td>
+<td>IT/HR offboarding flag</td>
+<td>⚠️ <strong>LEAKAGE</strong>: strongly tied to outcome; exclude at train time.</td>
+</tr>
+</tbody>
+</table>
 
 
 
