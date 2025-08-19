@@ -19,15 +19,17 @@ st.set_page_config(page_title="HR Turnover Predictor", layout="wide")
 # Documentation
 # ----------------------- 
 DOCS_URL = "https://stewart-robertson.github.io/streamlit-hr-prediction/"  # after gh-deploy
-LINKEDIN_URL = "https://www.linkedin.com/in/stewartrobertson/"  # your LinkedIn
+LINKEDIN_URL = "https://www.linkedin.com/in/stewart-robertson-data/"  # your LinkedIn
 
-left, right = st.columns([0.7, 0.3])
-with left:
-    st.title("HR Turnover Predictor")
-    st.caption("Predict attrition risk • Test what-ifs • Quantify savings")
-with right:
+#left, right = st.columns([0.7, 0.3])
+
+st.title("HR Turnover Predictor")
+st.caption("Predict attrition risk • Test what-ifs • Quantify savings")
+col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1])
+with col1:
     st.link_button("How to use", DOCS_URL, help="Open the user guide")
-    st.link_button("Connect on LinkedIn", LINKEDIN_URL, help="Open my LinkedIn profile")
+with col2:
+    st.link_button("LinkedIn", LINKEDIN_URL, help="Open my LinkedIn profile")
 
 # Resolve repo root regardless of where Streamlit is launched
 REPO_ROOT = Path(__file__).resolve().parents[1]
