@@ -41,4 +41,9 @@ nav:
   - Underlying model: underlying_model.md
   - Model performance: performance.md
   - FAQ: faq.md
-  - Glossary: glossary.md
+  - Glossary: glossary.md  
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/stewart-robertson-data/
+      name: Connect on LinkedIn

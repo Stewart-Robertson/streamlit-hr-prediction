@@ -12,13 +12,14 @@ from sklearn.metrics import (
     precision_recall_curve, roc_curve, confusion_matrix
 )
 
-# Configure Streamlit page FIRST (must be the first Streamlit command)
+# Configure Streamlit page
 st.set_page_config(page_title="HR Turnover Predictor", layout="wide")
 
 # -----------------------
 # Documentation
 # ----------------------- 
 DOCS_URL = "https://stewart-robertson.github.io/streamlit-hr-prediction/"  # after gh-deploy
+LINKEDIN_URL = "https://www.linkedin.com/in/stewartrobertson/"  # your LinkedIn
 
 left, right = st.columns([0.7, 0.3])
 with left:
@@ -26,6 +27,7 @@ with left:
     st.caption("Predict attrition risk • Test what-ifs • Quantify savings")
 with right:
     st.link_button("How to use", DOCS_URL, help="Open the user guide")
+    st.link_button("Connect on LinkedIn", LINKEDIN_URL, help="Open my LinkedIn profile")
 
 # Resolve repo root regardless of where Streamlit is launched
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -101,7 +103,7 @@ def prob_delta_savings(base_probs: pd.Series,
 
 # Columns the model was trained to expect (drop list handled inside the pipeline)
 TARGET_COL = "attrited"
-YEAR_COL = "snapshot_year"     # created by your training script
+YEAR_COL = "snapshot_year"     # created by training script
 TEAM_COL = "team_id"           # optional, for grouping
 DEPT_COL = "department"        # optional, for grouping
 
@@ -436,4 +438,8 @@ with tab_method:
     else:
         st.caption("Calibration metrics file not found.")
 
-st.caption("© Stewart Robertson – Demo portfolio app — built for showcasing HR attrition risk modeling with calibrated probabilities.")
+st.caption(
+    "© Stewart Robertson — Demo portfolio app. "
+    "•  📘 [How to use](%s)  •  🔗 [LinkedIn](%s)"
+    % (DOCS_URL, LINKEDIN_URL)
+)
