@@ -1,6 +1,10 @@
 data/raw/
-data/processed/
+data/processed/*
+!data/processed/hr_attrition_clean.csv
+
 models/*
+!models/attrition_lr_calibrated_train_to_2022_skl171.pkl
+
 reports/*.html
 reports/*.png
 .ipynb_checkpoints/

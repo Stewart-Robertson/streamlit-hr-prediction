@@ -204,7 +204,7 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("What‑if levers")
     wl_delta = st.slider("Reduce workload score by", 0.0, 5.0, value=0.0, step=0.5, help="Simulate lowering workload via hiring/backfill/rebalancing.")
-    mq_delta = st.slider("Improve manager quality by", 0.0, 3.0, value=0.0, step=0.5, help="Simulate impact of coaching/training/manager changes.")
+    mq_delta = st.slider("Improve manager quality by", 0.0, 5.0, value=0.0, step=0.5, help="Simulate impact of coaching/training/manager changes.")
 
 # Compute base metrics
 y_true = scored[TARGET_COL] if TARGET_COL in scored.columns else None
