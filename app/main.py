@@ -84,7 +84,7 @@ def prob_delta_savings(base_probs: pd.Series,
     spend = intervention_cost * covered_mask.sum()
     return prevented - spend
 
-# Columns your model was trained to expect (drop list handled inside the pipeline)
+# Columns the model was trained to expect (drop list handled inside the pipeline)
 TARGET_COL = "attrited"
 YEAR_COL = "snapshot_year"     # created by your training script
 TEAM_COL = "team_id"           # optional, for grouping
