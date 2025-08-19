@@ -12,6 +12,18 @@ from sklearn.metrics import (
     precision_recall_curve, roc_curve, confusion_matrix
 )
 
+# -----------------------
+# Documentation
+# ----------------------- 
+DOCS_URL = "https://stewart-robertson.github.io/streamlit-hr-prediction/"  # after gh-deploy
+
+left, right = st.columns([0.7, 0.3])
+with left:
+    st.title("HR Turnover Predictor")
+    st.caption("Predict attrition risk • Test what-ifs • Quantify savings")
+with right:
+    st.link_button("How to use", DOCS_URL, help="Open the user guide")
+
 # Resolve repo root regardless of where Streamlit is launched
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
