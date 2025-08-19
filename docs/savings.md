@@ -19,7 +19,7 @@ Net = (True Positives × effectiveness × replacement_cost) - (Treatments × int
 ## 2) Threshold-free savings (expected value)
 **What it is:** We sum expected value per person over the **treated cohort** (Top-K or Threshold, with Coverage), without relying on a single cut-off.
 
-**Per person EV:**  
+**Per person Expected Value:**  
 effectiveness × replacement_cost × predicted_risk − intervention_cost
 
 **Use it for:** comparing scenarios and strategy settings; it reflects how risk actually shifts.

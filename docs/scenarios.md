@@ -7,7 +7,8 @@
 ## Strategies
 - **Threshold**: aligns with policy (“intervene above X% risk”)
 - **Top-K**: fixes capacity (“we can treat ~15% of employees”)
-- **Coverage**: simulate partial rollout
+- **Coverage**: simulate partial rollout to the chosen cohort
 
 !!! tip
-    Try Top-K first. It naturally targets the highest ROI group.
+    Try Top-K first. It naturally targets the highest ROI group.  
+    Refer to the lift chart in **[How to use](performance.md)**

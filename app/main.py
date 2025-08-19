@@ -156,15 +156,28 @@ def expected_value(tp, fp, avg_replacement_cost, intervention_cost, effectivenes
     return saved - spent
 
 def lift_table(y_true: pd.Series, y_prob: pd.Series, bins=10) -> pd.DataFrame:
+    """
+    Build a decile (or bins) table even when predicted probabilities have many ties.
+    We use a deterministic rank to break ties, then qcut on the rank so we always
+    get the requested number of bins.
+    """
     df = pd.DataFrame({"y": y_true.values, "p": y_prob.values})
-    df["decile"] = pd.qcut(df["p"], q=bins, labels=False, duplicates="drop")
-    agg = df.groupby("decile").agg(n=("y","size"), positives=("y","sum"), avg_p=("p","mean")).reset_index()
+    # Deterministic tie-break so we don't lose bins due to duplicate edges
+    df["rank"] = df["p"].rank(method="first", ascending=True)
+    df["decile"] = pd.qcut(df["rank"], q=bins, labels=False)
+
+    agg = df.groupby("decile").agg(
+        n=("y", "size"),
+        positives=("y", "sum"),
+        avg_p=("p", "mean")
+    ).reset_index()
     agg["rate"] = agg["positives"] / agg["n"]
+    # Show highest-risk decile first
     agg = agg.sort_values("decile", ascending=False).reset_index(drop=True)
     agg["cum_positives"] = agg["positives"].cumsum()
     agg["cum_n"] = agg["n"].cumsum()
     overall_rate = df["y"].mean()
-    agg["lift"] = agg["rate"] / overall_rate
+    agg["lift"] = agg["rate"] / overall_rate if overall_rate > 0 else 0.0
     return agg, overall_rate
 
 # -----------------------
@@ -365,7 +378,7 @@ with tab_whatif:
 
         c1, c2, c3 = st.columns(3)
         with c1: st.metric("Net savings (base)", fmt_money(ev_base))
-        with c2: st.metric("Net savings (scenario)", fmt_money(ev_scn))
+        with c2: st.metric("Net savings (scenario)  [what is this?](%s/savings/#1-threshold-based-net-savings)" % DOCS_URL, fmt_money(ev_scn))
         with c3: st.metric("Δ Net savings", fmt_money(delta_ev))
 
         # Probability-delta based savings (threshold-free), using covered cohort only
@@ -377,7 +390,7 @@ with tab_whatif:
             intervention_cost=intervention_cost,
             effectiveness=effectiveness,
         )
-        st.success(f"Threshold‑free savings estimate (coverage‑adjusted): {fmt_money(ev_prob)}")
+        st.success(f"Threshold‑free savings estimate (coverage‑adjusted): **{fmt_money(ev_prob)}** [(what is this?)](%s/savings/#2-threshold-free-savings-expected-value)" % DOCS_URL)
         st.caption("Computed from the reduction in predicted attrition probability for the covered cohort, times effectiveness and replacement cost, minus intervention spend.")
 
     # Show distribution shift
