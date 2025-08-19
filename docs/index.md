@@ -11,3 +11,7 @@
 - Quantify **expected savings** and prioritise where to act
 
 👉 Start with **[How to use](usage.md)** (2–3 minutes).
+
+---
+
+> 🔗 **Connect with me:** [LinkedIn](https://www.linkedin.com/in/stewart-robertson-data/)
