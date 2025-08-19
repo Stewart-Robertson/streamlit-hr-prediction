@@ -11,3 +11,5 @@
 - Quantify **expected savings** and prioritise where to act
 
 👉 Start with **[How to use](usage.md)** (2–3 minutes).
+
+<iframe src="https://hr-app-sr.streamlit.app" width="100%" height="700" style="border:1px solid #ddd;"></iframe>
