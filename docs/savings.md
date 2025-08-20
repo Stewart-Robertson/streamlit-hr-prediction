@@ -37,7 +37,9 @@ effectiveness × replacement_cost × predicted_risk − intervention_cost
 
 **What this means:**
 
-- The **threshold-based** result didn’t change because your what-if didn’t move enough people across the chosen threshold (so flagged counts and TP/FP stayed the same).
+_As work conditions improve, people's attrition risk decreases, so at some mixture of settings these people will cross the threshold and impact the net savings._
+
+- The **threshold-based** result: Net savings (scenario) vs Net Savings (base) didn’t change because your what-if didn’t move enough people across the chosen threshold (so flagged counts and TP/FP stayed the same). 
 - The **threshold-free** result is **negative**, meaning the scenario made the treated cohort *less* profitable in expectation (e.g., you spent money treating lower-risk people or your effectiveness/cost assumptions make the lever uneconomical).
 
 **What to try next:**

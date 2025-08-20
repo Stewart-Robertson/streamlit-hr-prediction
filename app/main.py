@@ -13,7 +13,7 @@ from sklearn.metrics import (
 )
 
 # Configure Streamlit page
-st.set_page_config(page_title="HR Turnover Predictor", layout="wide")
+st.set_page_config(page_title="Business Turnover & Savings Predictor", layout="wide")
 
 # -----------------------
 # Documentation
@@ -23,7 +23,7 @@ LINKEDIN_URL = "https://www.linkedin.com/in/stewart-robertson-data/"  # your Lin
 
 #left, right = st.columns([0.7, 0.3])
 
-st.title("HR Turnover Predictor")
+st.title("Business Turnover & Savings Predictor")
 st.caption("Predict attrition risk • Test what-ifs • Quantify savings")
 col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1])
 with col1:
@@ -153,6 +153,31 @@ def metrics_at_threshold(y_true: pd.Series, y_prob: pd.Series, thr: float):
     fpr  = fp / (fp + tn) if (fp + tn) else 0.0
     return dict(tp=tp, fp=fp, tn=tn, fn=fn, precision=prec, recall=rec, fpr=fpr)
 
+
+def econ_optimal_threshold(y_true: pd.Series,
+                           y_prob: pd.Series,
+                           avg_replacement_cost: float,
+                           intervention_cost: float,
+                           effectiveness: float,
+                           grid: np.ndarray | None = None):
+    """
+    Find the threshold that maximizes expected net savings given costs/effectiveness.
+    Returns (best_thr, best_ev).
+    """
+    if grid is None:
+        # Dense grid to avoid overfitting to specific probability values
+        grid = np.linspace(0.0, 1.0, 501)
+    best_thr, best_ev = 0.5, -np.inf
+    # Precompute sorted indices for speed (optional)
+    for thr in grid:
+        y_pred = (y_prob >= thr).astype(int)
+        tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+        ev = expected_value(tp, fp, avg_replacement_cost, intervention_cost, effectiveness)
+        if ev > best_ev:
+            best_ev = ev
+            best_thr = float(thr)
+    return best_thr, best_ev
+
 def expected_value(tp, fp, avg_replacement_cost, intervention_cost, effectiveness):
     # effectiveness = probability the intervention prevents a true leaver
     saved = tp * (effectiveness * avg_replacement_cost)
@@ -200,7 +225,7 @@ with st.sidebar:
 
     # Threshold & Top-K
     default_thr = float(np.quantile(scored["attrition_risk"], 0.80))
-    thr = st.slider("Risk threshold (flag employees above this risk)", 0.0, 1.0, value=round(default_thr, 2), step=0.01, help="Anyone with predicted risk ≥ threshold is flagged for intervention.")
+    thr = st.slider("Risk threshold (flag employees above this risk)", 0.0, 1.0, value=round(default_thr, 2), step=0.01, key="thr", help="Anyone with predicted risk ≥ threshold is flagged for intervention.")
     topk = st.slider("Focus Top‑K (%) for cohort-based actions", 1, 50, value=15, step=1, help="Define the Top‑K cohort for targeted interventions and scenario coverage.")
 
     # Build masks for cohort selection
@@ -210,19 +235,15 @@ with st.sidebar:
     st.markdown("**Intervention strategy**")
     strategy = st.radio(
         label="Choose who you will intervene with",
-        options=["Threshold (flagged)", "Top‑K", "Intersection (flagged ∩ Top‑K)", "Union (flagged ∪ Top‑K)"],
+        options=["Threshold (flagged)", "Top‑K"],
         index=1,
-        help="Define the cohort that receives the intervention. Threshold = anyone above the risk threshold. Top‑K = highest‑risk K% of all employees. Intersection/Union mix both rules."
+        help="Define the cohort that receives the intervention. Threshold = anyone above the risk threshold. Top‑K = highest‑risk K% of all employees."
     )
 
     if strategy == "Threshold (flagged)":
         cohort_mask_selected = flagged_mask_sidebar
-    elif strategy == "Top‑K":
+    else:  # Top‑K
         cohort_mask_selected = topk_mask_sidebar
-    elif strategy == "Intersection (flagged ∩ Top‑K)":
-        cohort_mask_selected = flagged_mask_sidebar & topk_mask_sidebar
-    else:  # Union
-        cohort_mask_selected = flagged_mask_sidebar | topk_mask_sidebar
 
     st.markdown("---")
     st.subheader("Savings Sandbox")
@@ -230,6 +251,32 @@ with st.sidebar:
     intervention_cost = st.number_input("Intervention cost per flagged employee ($)", min_value=0.0, value=800.0, step=50.0, help="e.g., coaching, retention bonus, workload program cost.")
     effectiveness = st.slider("Intervention effectiveness (%)", 0, 100, value=30, step=5, help="Probability that the intervention prevents a true leaver.") / 100.0
     coverage_pct = st.slider("Coverage within chosen cohort (%)", 10, 100, value=100, step=5, help="Apply interventions to this % of the targeted cohort (e.g., Top‑K).")
+
+    st.markdown("**Time horizon & cash flow**")
+    horizon_months = st.slider("Planning horizon (months)", 1, 12, value=3, step=1, help="Scale replacement cost and intervention spend to this horizon.")
+    cost_is_monthly = st.checkbox("My intervention cost input is per month", value=False, help="If checked, total intervention spend = monthly cost × horizon; otherwise your cost is total program cost per person over the horizon.")
+
+    # Derive replacement & intervention costs on the same horizon basis
+    if "base_salary" in scored.columns:
+        _avg_salary = scored["base_salary"].mean()
+    else:
+        _avg_salary = 50000.0
+    _repl_cost_eff = _avg_salary * avg_replacement_cost * (horizon_months / 12.0)
+    _intervention_cost_eff = intervention_cost * (horizon_months if cost_is_monthly else 1.0)
+
+    # --- Economically optimal threshold (reference) ---
+    y_true_sidebar = scored[TARGET_COL] if TARGET_COL in scored.columns else None
+    if y_true_sidebar is not None:
+        opt_thr, opt_ev = econ_optimal_threshold(
+            y_true=y_true_sidebar,
+            y_prob=y_prob_sidebar,
+            avg_replacement_cost=_repl_cost_eff,
+            intervention_cost=_intervention_cost_eff,
+            effectiveness=effectiveness,
+        )
+        st.info(f"**Economically optimal threshold:** {opt_thr:.2f} — maximizes expected net savings at your current assumptions.")
+        if st.button("Use optimal threshold", help="Set the slider to the profit‑maximizing cut‑off based on your costs and effectiveness."):
+            st.session_state['thr'] = round(opt_thr, 2)
 
     st.markdown("---")
     st.subheader("What‑if levers")
@@ -257,13 +304,9 @@ with st.container():
         recall    = (tp / (tp + fn)) if (tp + fn) else 0.0
         flagged_total = int((y_pred == 1).sum())
 
-        # Replacement cost in $
-        if "base_salary" in scored.columns:
-            avg_salary = scored["base_salary"].mean()
-            repl_cost = avg_salary * avg_replacement_cost
-        else:
-            repl_cost = 50000 * avg_replacement_cost
-        ev_now = expected_value(tp, fp, repl_cost, intervention_cost, effectiveness)
+        # Replacement & intervention costs on the selected horizon
+        repl_cost = _repl_cost_eff
+        ev_now = expected_value(tp, fp, repl_cost, _intervention_cost_eff, effectiveness)
 
         # Row 1
         r1c1, r1c2, r1c3 = st.columns(3)
@@ -327,13 +370,8 @@ with tab_overview:
     # EV at chosen threshold
     if y_true is not None:
         m = metrics_at_threshold(y_true, y_prob, thr)
-        # Approx replacement $ using base_salary if present
-        if "base_salary" in scored.columns:
-            avg_salary = scored["base_salary"].mean()
-            repl_cost = avg_salary * avg_replacement_cost
-        else:
-            repl_cost = 50000 * avg_replacement_cost  # fallback
-        ev = expected_value(m["tp"], m["fp"], repl_cost, intervention_cost, effectiveness)
+        repl_cost = _repl_cost_eff
+        ev = expected_value(m["tp"], m["fp"], repl_cost, _intervention_cost_eff, effectiveness)
         st.info(f"**Expected Value at threshold {thr:.2f}: ${ev:,.0f}** "
                 f"(TP={m['tp']}, FP={m['fp']}, precision={m['precision']:.2f}, recall={m['recall']:.2f})")
     st.caption("Use the sidebar **Savings Sandbox** to tune assumptions (replacement cost, intervention cost, effectiveness) and the **Risk threshold** to see how savings and precision/recall trade off.")
@@ -388,15 +426,11 @@ with tab_whatif:
         tn_b, fp_b, fn_b, tp_b = confusion_matrix(y_true, y_pred_base).ravel()
         tn_s, fp_s, fn_s, tp_s = confusion_matrix(y_true, y_pred_scn).ravel()
 
-        # Replacement cost in $
-        if "base_salary" in scored.columns:
-            avg_salary = scored["base_salary"].mean()
-            repl_cost = avg_salary * avg_replacement_cost
-        else:
-            repl_cost = 50000 * avg_replacement_cost
+        # Replacement & intervention costs on the selected horizon
+        repl_cost = _repl_cost_eff
 
-        ev_base = expected_value(tp_b, fp_b, repl_cost, intervention_cost, effectiveness)
-        ev_scn  = expected_value(tp_s, fp_s, repl_cost, intervention_cost, effectiveness)
+        ev_base = expected_value(tp_b, fp_b, repl_cost, _intervention_cost_eff, effectiveness)
+        ev_scn  = expected_value(tp_s, fp_s, repl_cost, _intervention_cost_eff, effectiveness)
         delta_ev = ev_scn - ev_base
 
         c1, c2, c3 = st.columns(3)
@@ -410,11 +444,15 @@ with tab_whatif:
             scen_probs=y_prob_scn,
             covered_mask=covered_mask,
             replacement_cost=repl_cost,
-            intervention_cost=intervention_cost,
+            intervention_cost=_intervention_cost_eff,
             effectiveness=effectiveness,
         )
-        st.success(f"Threshold‑free savings estimate (coverage‑adjusted): **{fmt_money(ev_prob)}** [(what is this?)](%s/savings/#2-threshold-free-savings-expected-value)" % DOCS_URL)
-        st.caption("Computed from the reduction in predicted attrition probability for the covered cohort, times effectiveness and replacement cost, minus intervention spend.")
+        st.success(
+            f"Threshold‑free savings (for {horizon_months}‑mo horizon, coverage‑adjusted): "
+            f"**{fmt_money(ev_prob)}** "
+            f"[(what is this?)]({DOCS_URL}/savings/#2-threshold-free-savings-expected-value)"
+        )
+        st.caption("Changes with horizon only when what‑ifs reduce risk and/or when intervention cost is monthly.")
 
     # Show distribution shift
     df_compare = pd.DataFrame({"base": y_prob, "scenario": y_prob_scn})
