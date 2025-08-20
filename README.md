@@ -1,4 +1,4 @@
-# Business Turnover & Savings Estimator
+# Employee Turnover & Savings Estimator
 
 _Predict employee attrition risk, run what-if scenarios, and quantify net savings under real-world budget constraints._
 
