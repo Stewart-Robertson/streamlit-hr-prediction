@@ -42,6 +42,7 @@ nav:
   - Model performance: performance.md
   - FAQ: faq.md
   - Glossary: glossary.md  
+  - Case study: case_study.md
 extra:
   social:
     - icon: fontawesome/brands/linkedin
