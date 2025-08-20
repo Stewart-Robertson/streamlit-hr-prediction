@@ -3,7 +3,7 @@
 ## Summary
 
 !!! success "Key Result"
-    With **25,000 employees at 17% attrition**, XY turned a costly annual problem into a **data-backed, quarterly savings plan** worth $5–7M per quarter, using transparent risk scoring, horizon-scaled economics, and scenario testing.
+    With **25,000 employees at 17% attrition**, XY Financial turned a costly annual problem into a **data-backed, quarterly savings plan** worth $5–7M per quarter, using transparent risk scoring, horizon-scaled economics, and scenario testing.
 
 ## Company Profile
 
@@ -127,3 +127,8 @@ Applied improvements to treated cohort:
 
 ### Targeting Efficiency
 **Targeted interventions pay.** Top-K + Coverage gave tighter ROI than a blunt threshold.  
+
+--- 
+
+!!! note
+    This case study is entirely fictional and "XY Financial" does not exist to my knowledge.
