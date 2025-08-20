@@ -6,7 +6,7 @@ This project showcases a practical, decision-support data product aimed at HR le
 
 > **Built fast by partnering with AI.**
 > I intentionally used AI as a collaborative teammate throughout this project—accelerating planning, coding, documentation, and iteration.
-> This repo is a transparent example of how a data analyst can ship useful, end-to-end products quickly by pair-programming with AI while owning the design, reasoning, and validation.
+> This repo is a transparent example of how a data analyst can ship useful, end-to-end products quickly by pair-programming with AI while owning the **reasoning**, **design**, **governance**, and **validation**.
 
 ---
 
@@ -125,19 +125,7 @@ Top-K or Threshold cohort with Coverage %; sums per-person expected value from r
 
 📖 **Full guide**: [https://stewart-robertson.github.io/streamlit-hr-prediction/](https://stewart-robertson.github.io/streamlit-hr-prediction/)
 
----
-
-## 🤝 Partnering with AI
-
-I used AI intentionally as a **force multiplier**—for scaffolding code, surfacing edge cases, and tightening copy. The workflow was iterative:
-
-- **I defined** goals, constraints, and tests
-- **AI accelerated** the implementation  
-- **I validated**, refactored, and documented
-
-This project reflects how analysts can **own the problem and the standard**, while co-building with AI to deliver value fast.
-
----
+--- 
 
 ## ⚖️ Ethics, Fairness & Scope
 
