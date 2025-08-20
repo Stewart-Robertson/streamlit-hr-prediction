@@ -1,6 +1,6 @@
 # Business Turnover & Savings Estimator
 
-> Predict employee attrition risk, run what-if scenarios, and quantify net savings under real-world budget constraints.
+_Predict employee attrition risk, run what-if scenarios, and quantify net savings under real-world budget constraints._
 
 This project showcases a practical, decision-support data product aimed at HR leadership and Finance—clear enough for non-technical users, with enough detail for analysts to trust.
 
