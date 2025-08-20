@@ -1,10 +1,15 @@
-# Fictional Case Study: Reducing Avoidable Turnover at NorthBridge Financial
+# **Fictional Case Study**: Reducing Avoidable Turnover at XY Financial
+
+## Summary
+
+!!! success "Key Result"
+    With **25,000 employees at 17% attrition**, NorthBridge turned a costly annual problem into a **data-backed, quarterly savings plan** worth $5–7M per quarter, using transparent risk scoring, horizon-scaled economics, and scenario testing.
 
 ## Company Profile
 
 | Attribute | Details |
 |-----------|---------|
-| **Company** | NorthBridge Financial *(fictional, based on real project scale)* |
+| **Company** | XY Financial *(fictional, based on real project scale)* |
 | **Industry** | Financial Services |
 | **Employees** | 25,000 |
 | **Baseline Attrition** | ~17% annually (≈4,250 exits/year) |
@@ -121,11 +126,4 @@ Applied improvements to treated cohort:
 **Horizon scaling bridged HR and Finance.** Annual savings looked huge, but quarterly scaling made it **realistic for cashflow planning**.
 
 ### Targeting Efficiency
-**Targeted interventions pay.** Top-K + Coverage gave tighter ROI than a blunt threshold.
-
----
-
-## Summary
-
-!!! success "Key Result"
-    With **25,000 employees at 17% attrition**, NorthBridge turned a costly annual problem into a **data-backed, quarterly savings plan** worth $5–7M per quarter, using transparent risk scoring, horizon-scaled economics, and scenario testing.
+**Targeted interventions pay.** Top-K + Coverage gave tighter ROI than a blunt threshold.  
