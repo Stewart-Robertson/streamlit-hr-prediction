@@ -2,7 +2,7 @@
 
 _Predict employee attrition risk, run what-if scenarios, and quantify net savings under real-world budget constraints._
 
-This project showcases a practical, decision-support data product aimed at HR leadership and Finance—clear enough for non-technical users, with enough detail for analysts to trust.
+This project showcases a practical, decision-support data product aimed at HR leadership and Finance—clear enough for non-technical users, with enough detail for data scientists and analysts to trust.
 
 > **Built fast by partnering with AI.**
 > I intentionally used AI as a collaborative teammate throughout this project—accelerating planning, coding, documentation, and iteration.
