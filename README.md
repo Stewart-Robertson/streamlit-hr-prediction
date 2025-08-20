@@ -53,6 +53,8 @@ This project showcases a practical, decision-support data product aimed at HR le
 ├── data
 │   └── processed
 │       └── hr_attrition_clean.csv
+├── data profiling
+│   └── hr_attrition_profiling.html
 ├── docs
 │   └── ... (documentation files)
 ├── models
