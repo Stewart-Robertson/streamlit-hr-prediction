@@ -13,7 +13,7 @@ from sklearn.metrics import (
 )
 
 # Configure Streamlit page
-st.set_page_config(page_title="Business Turnover & Savings Predictor", layout="wide")
+st.set_page_config(page_title="Business Turnover & Savings Estimator", layout="wide")
 
 # -----------------------
 # Documentation
@@ -23,7 +23,7 @@ LINKEDIN_URL = "https://www.linkedin.com/in/stewart-robertson-data/"  # your Lin
 
 #left, right = st.columns([0.7, 0.3])
 
-st.title("Business Turnover & Savings Predictor")
+st.title("Business Turnover & Savings Estimator")
 st.caption("Predict attrition risk • Test what-ifs • Quantify savings")
 col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1])
 with col1:

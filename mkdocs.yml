@@ -1,4 +1,4 @@
-site_name: Business Turnover & Savings Predictor
+site_name: Business Turnover & Savings Estimator
 site_description: Predict attrition risk and quantify savings from targeted interventions.
 theme:
   name: material
