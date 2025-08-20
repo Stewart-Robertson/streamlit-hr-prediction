@@ -18,10 +18,8 @@ st.set_page_config(page_title="Business Turnover & Savings Estimator", layout="w
 # -----------------------
 # Documentation
 # ----------------------- 
-DOCS_URL = "https://stewart-robertson.github.io/streamlit-hr-prediction/"  # after gh-deploy
-LINKEDIN_URL = "https://www.linkedin.com/in/stewart-robertson-data/"  # your LinkedIn
-
-#left, right = st.columns([0.7, 0.3])
+DOCS_URL = "https://stewart-robertson.github.io/streamlit-hr-prediction/"  
+LINKEDIN_URL = "https://www.linkedin.com/in/stewart-robertson-data/"  
 
 st.title("Business Turnover & Savings Estimator")
 st.caption("Predict attrition risk • Test what-ifs • Quantify savings")

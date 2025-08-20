@@ -105,7 +105,7 @@ def make_feature_frame(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
     if TARGET_COL not in df.columns:
         raise ValueError(f"Target column {TARGET_COL} not found.")
 
-    # 1–2) Add engineered features BEFORE dropping source columns
+    # 1–2) Add engineered features before dropping source columns
     dfm = df.copy()
     dfm = add_mgmt_workload_features(dfm)
 
