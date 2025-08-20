@@ -1,4 +1,4 @@
-# FAQ
+# **FAQ**
 
 **Is the model “deciding” who to keep?**  
 No. It’s decision support. Managers and HR choose actions.

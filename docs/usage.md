@@ -1,4 +1,4 @@
-# How to use
+# **How to use**
 
 !!! tip "Threshold and Top-K"
     The **threshold** is the lever you use to decide how wide the safety net is. The total savings number shows the trade-off: at lower thresholds, you’re spending more but preventing more turnover losses; at higher thresholds, you spend less but miss savings opportunities. The **economically optimal threshold** — the point where this trade-off yields the maximum net benefit — is key to maximizing your return.  

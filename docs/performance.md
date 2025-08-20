@@ -1,4 +1,4 @@
-# Model performance (plain English)
+# **Model performance**
 
 ## ROC curve
 - Shows how well the model separates leavers vs stayers over all cut-offs.

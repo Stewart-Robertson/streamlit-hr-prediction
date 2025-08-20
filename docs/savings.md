@@ -1,4 +1,4 @@
-# Savings explained
+# **Savings explained**
 
 We show savings in two complementary ways.
 

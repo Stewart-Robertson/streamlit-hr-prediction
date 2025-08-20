@@ -1,4 +1,4 @@
-# Business Turnover & Savings Predictor
+# **Business Turnover & Savings Predictor**
 
 **What this is:** An interactive app that predicts which employees are at risk of leaving and estimates how much money you could save by taking targeted retention actions.
 

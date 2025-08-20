@@ -1,5 +1,5 @@
 
-# The Prediction Model (Plain English + Under the Hood)
+# **The Prediction Model**
 
 !!! note "TL;DR"  
     The app uses a calibrated logistic regression model to estimate each employee’s probability of leaving.

@@ -1,4 +1,4 @@
-# Glossary
+# **Glossary**
 **Attrition risk** – probability a person will leave.  
 **Effectiveness** – chance an intervention prevents an otherwise likely leaver.  
 **Replacement cost** – money lost when someone leaves (recruitment, onboarding, productivity).  
