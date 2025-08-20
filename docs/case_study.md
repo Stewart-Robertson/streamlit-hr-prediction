@@ -3,7 +3,7 @@
 ## Summary
 
 !!! success "Key Result"
-    With **25,000 employees at 17% attrition**, NorthBridge turned a costly annual problem into a **data-backed, quarterly savings plan** worth $5–7M per quarter, using transparent risk scoring, horizon-scaled economics, and scenario testing.
+    With **25,000 employees at 17% attrition**, XY turned a costly annual problem into a **data-backed, quarterly savings plan** worth $5–7M per quarter, using transparent risk scoring, horizon-scaled economics, and scenario testing.
 
 ## Company Profile
 
@@ -19,7 +19,7 @@
 
 ## 1. Business Problem
 
-NorthBridge was losing **~4,250 employees per year**, straining recruitment and productivity. Replacing each leaver cost **well over a year's salary** when accounting for:
+XY was losing **~4,250 employees per year**, straining recruitment and productivity. Replacing each leaver cost **well over a year's salary** when accounting for:
 
 - Hiring costs
 - Onboarding expenses  
