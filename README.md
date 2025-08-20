@@ -10,7 +10,7 @@ This project showcases a practical, decision-support data product aimed at HR le
 
 ---
 
-## 🔗 Links
+## Links
 
 | Resource | URL |
 |----------|-----|
@@ -20,7 +20,7 @@ This project showcases a practical, decision-support data product aimed at HR le
 
 ---
 
-## ✨ What This App Does
+## What This App Does
 
 - **Scores attrition risk** for each employee using a calibrated logistic regression model (time-aware split: train ≤ 2022, test 2023)
 
@@ -41,7 +41,7 @@ This project showcases a practical, decision-support data product aimed at HR le
 
 ---
 
-## 🧱 Repository Structure
+## Repository Structure
 
 ```
 .
@@ -70,7 +70,7 @@ This project showcases a practical, decision-support data product aimed at HR le
 
 > **Note**: Data is synthetic and used solely to demo model + app mechanics.
 
-## 🧠 Model & Methodology
+## Model & Methodology
 
 ### Algorithm
 - **Logistic Regression** with one-hot encoding + scaling
@@ -92,7 +92,7 @@ This project showcases a practical, decision-support data product aimed at HR le
 
 ---
 
-## 💵 Savings Math (Stakeholder-Friendly)
+## Savings Calculations (Stakeholder-Friendly)
 
 ### Net Savings (Scenario)
 Threshold-based calculation:
@@ -111,7 +111,7 @@ Top-K or Threshold cohort with Coverage %; sums per-person expected value from r
 
 ---
 
-## 🧭 How to Use (2-Minute Tour)
+## How to Use (2-Minute Tour)
 
 1. **Set assumptions** in the left sidebar: replacement multiple, intervention cost, effectiveness, horizon (months)
 
@@ -127,7 +127,7 @@ Top-K or Threshold cohort with Coverage %; sums per-person expected value from r
 
 --- 
 
-## ⚖️ Ethics, Fairness & Scope
+## Ethics, Fairness & Scope
 
 - This app is **decision support**—not an automated decision system
 - Data here is synthetic; in production, ensure bias audits, legal review, and employee privacy protections
@@ -136,7 +136,7 @@ Top-K or Threshold cohort with Coverage %; sums per-person expected value from r
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Component | Technology |
 |-----------|------------|
@@ -150,7 +150,7 @@ Top-K or Threshold cohort with Coverage %; sums per-person expected value from r
 
 ---
 
-## 🙋‍♂️ Contact
+## Contact
 
 - **Documentation**: [https://stewart-robertson.github.io/streamlit-hr-prediction/](https://stewart-robertson.github.io/streamlit-hr-prediction/)
 - **LinkedIn**: [https://www.linkedin.com/in/stewartrobertson-data/](https://www.linkedin.com/in/stewartrobertson-data/)
