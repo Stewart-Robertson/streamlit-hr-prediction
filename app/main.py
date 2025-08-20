@@ -13,7 +13,7 @@ from sklearn.metrics import (
 )
 
 # Configure Streamlit page
-st.set_page_config(page_title="Business Turnover & Savings Estimator", layout="wide")
+st.set_page_config(page_title="Employee Turnover & Savings Estimator", layout="wide")
 
 # -----------------------
 # Documentation
@@ -21,7 +21,7 @@ st.set_page_config(page_title="Business Turnover & Savings Estimator", layout="w
 DOCS_URL = "https://stewart-robertson.github.io/streamlit-hr-prediction/"  
 LINKEDIN_URL = "https://www.linkedin.com/in/stewart-robertson-data/"  
 
-st.title("Business Turnover & Savings Estimator")
+st.title("Employee Turnover & Savings Estimator")
 st.caption("Predict attrition risk • Test what-ifs • Quantify savings")
 col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1])
 with col1:
