@@ -481,3 +481,5 @@ st.caption(
     "•  📘 [How to use](%s)  •  🔗 [LinkedIn](%s)"
     % (DOCS_URL, LINKEDIN_URL)
 )
+
+st.caption("Disclaimer: This app is a proof of concept and should not be used for decision-making at your organisation.")
