@@ -25,7 +25,7 @@ st.title("Employee Turnover & Savings Estimator")
 st.caption("Predict attrition risk • Test what-ifs • Quantify savings")
 col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1])
 with col1:
-    st.link_button("How to use", DOCS_URL, help="Open the user guide")
+    st.link_button("How to use", DOCS_URL, help="Open the user guide", type="primary")
 with col2:
     st.link_button("LinkedIn", LINKEDIN_URL, help="Open my LinkedIn profile")
 
